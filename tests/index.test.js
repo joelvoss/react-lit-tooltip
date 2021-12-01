@@ -46,20 +46,13 @@ describe('<Tooltip />', () => {
 
 		// NOTE(joel): jest-axe needs real timers
 		jest.useRealTimers();
-		let results = null;
-		await act(async () => {
-			results = await axe(container);
-		});
-		expect(results).toHaveNoViolations();
+		await expect(container).toHaveNoAxeViolations();
 		jest.useFakeTimers();
 
 		act(() => void mouseoverTooltip(trigger));
 
 		jest.useRealTimers();
-		await act(async () => {
-			results = await axe(container);
-		});
-		expect(results).toHaveNoViolations();
+		await expect(container).toHaveNoAxeViolations();
 		jest.useFakeTimers();
 
 		act(() => void leaveTooltip(trigger));
