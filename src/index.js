@@ -1,3 +1,4 @@
+import * as React from 'react';
 import { useId } from '@react-lit/auto-id';
 import {
 	getDocumentDimensions,
@@ -9,14 +10,7 @@ import {
 import { Portal } from '@react-lit/portal';
 import { VisuallyHidden } from '@react-lit/visually-hidden';
 import { useRect } from '@react-lit/rect';
-import {
-	Children,
-	cloneElement,
-	forwardRef,
-	useEffect,
-	useRef,
-	useState,
-} from 'react';
+
 
 ////////////////////////////////////////////////////////////////////////////////
 
@@ -365,14 +359,14 @@ export function useTooltip({
 	ref: parentRef,
 }) {
 	const id = String(useId(idProp));
-	const [isVisible, setIsVisible] = useState(isTooltipVisible(id, true));
+	const [isVisible, setIsVisible] = React.useState(isTooltipVisible(id, true));
 
-	const ownRef = useRef();
+	const ownRef = React.useRef();
 	const ref = useComposeRefs(parentRef, ownRef);
 	const triggerRect = useRect(ownRef, { observe: isVisible });
 
 	// Subscribe to global state changes of our state machine
-	useEffect(
+	React.useEffect(
 		() =>
 			subscribe(() => {
 				setIsVisible(isTooltipVisible(id));
@@ -380,7 +374,7 @@ export function useTooltip({
 		[id],
 	);
 
-	useEffect(() => {
+	React.useEffect(() => {
 		let ownerDocument = getOwnerDocument(ownRef.current);
 		/**
 		 * @param {KeyboardEvent} event
@@ -494,9 +488,9 @@ export function useTooltip({
 /**
  * Tooltip
  */
-export const Tooltip = forwardRef(
+export const Tooltip = React.forwardRef(
 	({ children, label, id, ...props }, parentRef) => {
-		let child = Children.only(children);
+		let child = React.Children.only(children);
 
 		// NOTE(joel): Pass some child props to useTooltip to allow control over
 		// the trigger's ref and events.
@@ -519,7 +513,7 @@ export const Tooltip = forwardRef(
 
 		return (
 			<>
-				{cloneElement(child, trigger)}
+				{React.cloneElement(child, trigger)}
 				<TooltipPopup ref={parentRef} label={label} {...tooltip} {...props} />
 			</>
 		);
@@ -531,7 +525,7 @@ export const Tooltip = forwardRef(
 /**
  * TooltipPopup
  */
-export const TooltipPopup = forwardRef(
+export const TooltipPopup = React.forwardRef(
 	(
 		{
 			// could use children but we want to encourage simple strings
@@ -561,7 +555,7 @@ export const TooltipPopup = forwardRef(
  * TooltipContent renders a seperate component so that `useRect` works inside
  * the <Portal />
  */
-export const TooltipContent = forwardRef(
+export const TooltipContent = React.forwardRef(
 	(
 		{
 			'aria-label': ariaLabel,
@@ -585,7 +579,7 @@ export const TooltipContent = forwardRef(
 		// @see https://www.w3.org/TR/wai-aria-practices-1.2/#tooltip
 		const hasAriaLabel = ariaLabel != null;
 
-		const ownRef = useRef();
+		const ownRef = React.useRef();
 		const ref = useComposeRefs(parentRef, ownRef);
 		const tooltipRect = useRect(ownRef, { observe: isVisible });
 
@@ -692,7 +686,7 @@ export const positionTooltip = (triggerRect, tooltipRect, offset = 8) => {
  * @template T
  */
 function useDisabledTriggerOnSafari({ disabled, isVisible, ref }) {
-	useEffect(() => {
+	React.useEffect(() => {
 		if (
 			!(typeof window !== 'undefined' && 'PointerEvent' in window) ||
 			!disabled ||
