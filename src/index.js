@@ -11,7 +11,6 @@ import { Portal } from '@react-lit/portal';
 import { VisuallyHidden } from '@react-lit/visually-hidden';
 import { useRect } from '@react-lit/rect';
 
-
 ////////////////////////////////////////////////////////////////////////////////
 
 /**
