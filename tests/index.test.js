@@ -1,6 +1,5 @@
 import * as React from 'react';
 import { render, fireEvent, act } from './test-utils';
-import { axe } from 'jest-axe';
 
 import { Tooltip, LEAVE_TIMEOUT, REST_TIMEOUT } from '../src/index';
 
@@ -58,7 +57,7 @@ describe('<Tooltip />', () => {
 		act(() => void leaveTooltip(trigger));
 	});
 
-	it('should show/hide a tooltip on hover', () => {
+	it('should show/hide a tooltip on hover', async () => {
 		const tooltipText = "I'm the tooltip!";
 		const { getByText, queryByText } = render(
 			<p>
@@ -79,7 +78,7 @@ describe('<Tooltip />', () => {
 		act(() => void leaveTooltip(trigger));
 	});
 
-	it('should show/hide a tooltip when trigger is focused/blurred', () => {
+	it('should show/hide a tooltip when trigger is focused/blurred', async () => {
 		const tooltipText = "I'm the tooltip!";
 		const { getByText, queryByText } = render(
 			<Tooltip label={tooltipText}>
@@ -99,7 +98,7 @@ describe('<Tooltip />', () => {
 		act(() => void leaveTooltip(trigger));
 	});
 
-	it('should render as any HTML element', () => {
+	it('should render as any HTML element', async () => {
 		const tooltipText = "I'm the tooltip!";
 		const { getByText } = render(
 			<p>
@@ -118,7 +117,7 @@ describe('<Tooltip />', () => {
 		act(() => void leaveTooltip(trigger));
 	});
 
-	it('should render with proper default CSS', () => {
+	it('should render with proper default CSS', async () => {
 		const tooltipText = "I'm the tooltip!";
 		const { getByText } = render(
 			<p>
@@ -151,7 +150,7 @@ describe('<Tooltip />', () => {
 		act(() => void leaveTooltip(trigger));
 	});
 
-	it('should show a tooltip w/o timeout when another tooltip is already visible', () => {
+	it('should show a tooltip w/o timeout when another tooltip is already visible', async () => {
 		let { getByText, queryByText } = render(
 			<>
 				<Tooltip label="First">
@@ -180,7 +179,7 @@ describe('<Tooltip />', () => {
 		act(() => void leaveTooltip(secondTrigger));
 	});
 
-	it('should hide on ESC', () => {
+	it('should hide on ESC', async () => {
 		const tooltipText = "I'm the tooltip!";
 		const { getByText, queryByText } = render(
 			<Tooltip label={tooltipText}>
